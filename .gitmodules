@@ -1,0 +1,4 @@
+[submodule "libs/big-number"]
+	path = libs/big-number
+	url = https://github.com/misha1sh/cpp_hw1.git
+	branch = dev1

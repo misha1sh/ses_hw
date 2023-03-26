@@ -1,46 +1,70 @@
-#include "common.h"
+// #include "common.h"
 
-#include <iostream>
-#include <fstream>
-#include <filesystem>
-#include <vector>
-#include <cstdio>
+// #include <iostream>
+// #include <fstream>
+// #include <filesystem>
+// #include <vector>
+// #include <cstdio>
+// #include <chrono>
+// #include <thread>
 
-using FileContent = std::vector<std::pair<std::string, uint32_t>>;
-std::optional<FileContent> ReadFile(const std::string file_name) {
-    FileContent res;
+// #include <cerrno>
+// #include <stdio.h>
+// #include <unistd.h>
+// #include <sys/types.h>
+// #include <sys/stat.h>
+// #include <fcntl.h> 
 
-    std::ifstream file{file_name};
-    if (!file.is_open()) {
-        std::cerr << "Unable to open file " << file_name << std::endl;
-        return std::nullopt;
-    }
+// struct FifoHandler {
+//     std::string path;
 
-    std::string s;
-    while (std::getline(file, s)) {
-        const auto pos = s.find(" : ");
-        if (pos == std::string::npos || s.size() <= pos + 3) {
-            std::cerr << file_name  << ": Illegally formated file. Line: " << s << std::endl;
-            return std::nullopt;
-        }
+//     void Clear() {
+//         unlink(path); 
+//     }
 
-        const std::string_view part1 = s.substr(0, pos);
-        const std::string_view part2 = s.substr(pos + 3);
-        const auto value_opt = ParseUint32OrError(part2, part1);
-        if (!value_opt) {
-            std::cerr << "Error while reading " << file_name << ". Line " << s << std::endl;
-            return std::nullopt;
-        }
-        res.emplace_back(part1, *value_opt);
-    }
+//     bool Create() {
+//         if((mkfifo("/tmp/fifo0001.1", O_RDWR)) == -1) {
+//             std::cerr << "Error during creating fifo\n" 
+//                       << errno << " " << std::strerror(errno) << std::endl;
+//             return false
+//         } 
+//         return true;
+//     }
+// };
 
-    return res;
-}
 
-int main(int argc, char** argv) {
-    std::filesystem::path executable_path{argv[0]};
-    std::filesystem::path dir_path{executable_path.parent_path()};
-    ReadFile(dir_path / "op1.txt");
-    ReadFile(dir_path / "op2.txt");
-    ReadFile(dir_path / "queue.txt");
-}
+// bool DoWork(const std::filesystem::path operations_table_path, const std::filesystem::path operations_queue_path) {
+//     const auto operations_file_content = ReadFile(operations_table_path);
+//     if (!operations_file_content) {
+//         return false;
+//     }
+//     const auto opertions_table = FileContentToOperationsTable(*operations_file_content);
+//     const auto operations_queue_opt = ReadFile(operations_queue_path);
+
+//     for (const auto& [operation, count] : *operations_queue_opt) {
+//         const auto time_it = opertions_table.find(operation);
+//         if (time_it == opertions_table.end()) {
+//             std::cerr << "Can not find operation with name '" << operation << "' " << std::endl;
+//             return false;
+//         }
+//         const size_t time = time_it->second;
+
+//         for (size_t i = 0; i < count; i++) {
+//             std::cout << "[Sender] started operation '" << operation << "'. Takes " << time << " seconds." << std::endl;
+//             std::this_thread::sleep_for(std::chrono::seconds{time});
+//             std::cout << "[Sender] finished operation '" << operation << "'. Sending to receiver" << std::endl;
+//         }
+//     }   
+
+//     return true;
+// }
+
+// int main(int argc, char** argv) {
+//     std::filesystem::path executable_path{argv[0]};
+//     std::filesystem::path dir_path{executable_path.parent_path()};
+
+//     DoWork(dir_path / "op1.txt", dir_path / "queue.txt");
+//     return 0; 
+// }
+
+int main() {}
