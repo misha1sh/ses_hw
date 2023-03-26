@@ -1,0 +1,12 @@
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+find_package(Threads REQUIRED)
+
+add_executable(hw6 main.cpp)
+if(THREADS_HAVE_PTHREAD_ARG)
+  target_compile_options(hw6 PUBLIC "-pthread")
+endif()
+if(CMAKE_THREAD_LIBS_INIT)
+  target_link_libraries(hw6 "${CMAKE_THREAD_LIBS_INIT}")
+endif()
+target_compile_features(hw6 PRIVATE cxx_std_20)

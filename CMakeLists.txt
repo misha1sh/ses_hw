@@ -12,3 +12,5 @@ add_subdirectory(hw4)
 add_subdirectory(libs/big-number/deps/googletest deps/googletest)
 add_subdirectory(libs/big-number/src/big_number)
 add_subdirectory(hw5)
+
+add_subdirectory(hw6)
