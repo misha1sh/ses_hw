@@ -44,7 +44,9 @@ void RunTasks(const std::chrono::high_resolution_clock::time_point start_time,
               std::vector<Task> tasks) {
     using namespace std::chrono_literals;
 
-    std::ranges::sort(tasks, {}, &Task::time);
+    std::sort(tasks.begin(), tasks.end(), [](const auto& lhs, const auto& rhs) {
+        return lhs.time < rhs.time;
+    });
 
     std::vector<std::thread> threads;
     for (const auto& task : tasks) {
